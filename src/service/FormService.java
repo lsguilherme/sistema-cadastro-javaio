@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Form {
+public class FormService {
     private static String PATH_QUESTIONS = "formulario.txt";
 
     protected static ArrayList<String> questions = new ArrayList<>();
