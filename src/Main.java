@@ -1,10 +1,8 @@
-import static service.FormService.loadQuestions;
-import static service.UserService.*;
+import static service.MenuService.showMenu;
 
 public class Main {
     public static void main(String[] args)  {
-        loadQuestions();
-        registerUser();
+        showMenu();
     }
 
 }

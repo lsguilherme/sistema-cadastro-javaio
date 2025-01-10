@@ -2,10 +2,7 @@ package service;
 
 import domain.User;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -44,10 +41,11 @@ public class UserService {
             }
         }
 
+
         users.add(user);
 
         createUserFile(user);
-        sc.close();
+
 
     }
 
@@ -75,6 +73,35 @@ public class UserService {
             bw.write(String.valueOf(user.getHeight()));
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void listUser() {
+        File dir = new File(PATH_DIR);
+        File[] files = dir.listFiles();
+
+        if (!dir.exists() || !dir.isDirectory()) {
+            System.out.println("O diretório não existe ou não é um diretório válido.");
+        }
+
+        if (files == null || files.length == 0) {
+            System.out.println("O diretório está vazio.");
+        }
+
+        for (File file : files){
+            if (!file.isFile() || !file.getName().endsWith(".txt")) {
+                continue;
+            }
+
+            try(BufferedReader br = new BufferedReader(new FileReader(file))){
+                String[] number = file.getName().split("-");
+                String firstLine = br.readLine();
+                System.out.println(number[0] + " - " + firstLine);
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+
         }
 
     }
