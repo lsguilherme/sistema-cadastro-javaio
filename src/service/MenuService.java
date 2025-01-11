@@ -2,7 +2,7 @@ package service;
 
 import java.util.Scanner;
 
-import static service.FormService.loadQuestions;
+import static service.FormService.*;
 import static service.UserService.listUser;
 import static service.UserService.registerUser;
 
@@ -26,11 +26,16 @@ public class MenuService {
                 registerUser();
                 break;
             case 2:
+
                 listUser();
                 break;
             case 3:
+                loadQuestions();
+                addQuestion();
                 break;
             case 4:
+                loadQuestions();
+                deleteQuestion();
                 break;
             case 5:
                 break;
@@ -38,5 +43,6 @@ public class MenuService {
                 System.out.println("Opção inválida!");
                 break;
         }
+        sc.close();
     }
 }
