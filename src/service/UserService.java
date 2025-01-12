@@ -1,6 +1,10 @@
 package service;
 
 import domain.User;
+import exceptions.InvalidAgeException;
+import exceptions.InvalidEmailExecption;
+import exceptions.InvalidHeightException;
+import exceptions.InvalidNameException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,7 +20,7 @@ public class UserService {
 
     private static final ArrayList<User> users = new ArrayList<>();
 
-    public static void registerUser() {
+    public static void registerUser() throws Exception {
         Scanner sc = new Scanner(System.in);
 
         User user = new User();
@@ -24,18 +28,44 @@ public class UserService {
         for (int i = 0; i < questions.size(); i++) {
             System.out.println(questions.get(i));
 
+
             switch (i){
                 case 0:
-                    user.setName(sc.nextLine());
+                    String name = sc.nextLine();
+                    if (name.length() < 10){
+                        throw new InvalidNameException("O nome deve ter pelo menos 10 caracteres.");
+                    }
+                    user.setName(name);
                     break;
                 case 1:
-                    user.setEmail(sc.nextLine());
+                    String email = sc.nextLine();
+
+                    if (!email.contains("@")){
+                        throw new InvalidEmailExecption("O email está inválido, deve conter '@'.");
+                    }
+
+                    if (emailExistsInFiles(email)) {
+                        throw new InvalidEmailExecption("O email já está cadastrado.");
+                    }
+
+                    user.setEmail(email);
                     break;
                 case 2:
-                    user.setAge(Integer.parseInt(sc.nextLine().trim()));
+                    int age = sc.nextInt();
+                    sc.nextLine();
+                    if (age < 18){
+                        throw new InvalidAgeException("O usuário é menor de idade.");
+                    }
+                    user.setAge(age);
                     break;
                 case 3:
-                    user.setHeight(Double.parseDouble(sc.nextLine().replace(",", ".").trim()));
+                    String height = sc.nextLine();
+
+                    if (!height.matches("\\d+,\\d+")){
+                        throw new InvalidHeightException("A altura deve ser digitado com ','.");
+                    }
+
+                    user.setHeight(height);
                     break;
                 default:
                     break;
@@ -147,6 +177,37 @@ public class UserService {
         if (!found) {
             System.out.println("Nenhum usuário com " + searchName.toUpperCase() + " cadastrado.");
         }
+    }
+
+    private static boolean emailExistsInFiles(String email) {
+        File dir = new File(PATH_DIR);
+        File[] files = dir.listFiles();
+
+        if (!dir.exists() || !dir.isDirectory()) {
+            return false;
+        }
+
+        if (files == null) {
+            return false;
+        }
+
+        for (File file : files) {
+            if (!file.isFile() || !file.getName().endsWith(".txt")) {
+                continue;
+            }
+
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                br.readLine();
+                String fileEmail = br.readLine();
+                if (email.equalsIgnoreCase(fileEmail)) {
+                    return true;
+                }
+            } catch (IOException e) {
+                System.out.println("Error: " + file.getName());
+            }
+        }
+
+        return false;
     }
 
 }

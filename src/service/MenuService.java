@@ -7,7 +7,7 @@ import static service.UserService.*;
 
 public class MenuService {
 
-    public static void showMenu(){
+    public static void showMenu() throws Exception{
         Scanner sc = new Scanner(System.in);
         System.out.println("""
                 1 - Cadastrar o usuário
@@ -25,7 +25,6 @@ public class MenuService {
                 registerUser();
                 break;
             case 2:
-
                 listUser();
                 break;
             case 3:
