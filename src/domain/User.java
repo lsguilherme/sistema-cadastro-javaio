@@ -4,12 +4,12 @@ public class User {
     private String name;
     private String email;
     private Integer age;
-    private Double height;
+    private String height;
 
     public User() {
     }
 
-    public User(String name, String email, Integer age, Double height) {
+    public User(String name, String email, Integer age, String height) {
         this.name = name;
         this.email = email;
         this.age = age;
@@ -40,11 +40,11 @@ public class User {
         this.age = age;
     }
 
-    public Double getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(Double height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
@@ -55,6 +55,6 @@ public class User {
                 "Nome: " + name + '\n' +
                 "Email: " + email + '\n' +
                 "Idade: " + age + "\n"+
-                "Altura: " + String.format("%.2f", height) ;
+                "Altura: " + height ;
     }
 }
