@@ -10,10 +10,11 @@ import java.util.Scanner;
 import static service.FormService.questions;
 
 public class UserService {
+
     // Passar o path absoluto da pasta src
     private static String PATH_DIR = "F:\\ws-java\\devmagro\\src\\users";
 
-    private static ArrayList<User> users = new ArrayList<>();
+    private static final ArrayList<User> users = new ArrayList<>();
 
     public static void registerUser() {
         Scanner sc = new Scanner(System.in);
@@ -104,6 +105,48 @@ public class UserService {
 
         }
 
+    }
+
+    public static void searchUser() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Digite o nome ou parte do nome que deseja buscar: ");
+        String searchName = sc.nextLine().toLowerCase();
+
+        File dir = new File(PATH_DIR);
+        File[] files = dir.listFiles();
+
+        if (!dir.exists() || !dir.isDirectory()) {
+            System.out.println("O diretório não existe ou não é um diretório válido.");
+            return;
+        }
+
+        if (files == null || files.length == 0) {
+            System.out.println("O diretório está vazio.");
+            return;
+        }
+
+        boolean found = false;
+
+        for (File file : files) {
+            if (!file.isFile() || !file.getName().endsWith(".txt")) {
+                continue;
+            }
+
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String name = br.readLine();
+                if (name.toLowerCase().contains(searchName)) {
+                    found = true;
+                    System.out.println("Cadastrados: " + name);
+
+                }
+            } catch (IOException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+
+        if (!found) {
+            System.out.println("Nenhum usuário com " + searchName.toUpperCase() + " cadastrado.");
+        }
     }
 
 }

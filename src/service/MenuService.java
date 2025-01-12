@@ -3,8 +3,7 @@ package service;
 import java.util.Scanner;
 
 import static service.FormService.*;
-import static service.UserService.listUser;
-import static service.UserService.registerUser;
+import static service.UserService.*;
 
 public class MenuService {
 
@@ -38,6 +37,7 @@ public class MenuService {
                 deleteQuestion();
                 break;
             case 5:
+                searchUser();
                 break;
             default:
                 System.out.println("Opção inválida!");
