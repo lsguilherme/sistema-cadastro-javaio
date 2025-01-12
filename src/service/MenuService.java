@@ -14,7 +14,7 @@ public class MenuService {
                 2 - Listar todos usuários cadastrados
                 3 - Cadastrar nova pergunta no formulário
                 4 - Deletar pergunta do formulário
-                5 - Pesquisar usuário por nome ou idade ou email
+                5 - Pesquisar usuário por nome
                 """);
 
         int choice = sc.nextInt();
